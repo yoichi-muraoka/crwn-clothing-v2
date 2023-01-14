@@ -1,16 +1,27 @@
 import { Link, Outlet } from 'react-router-dom'
-import { ReactComponent as CrownLogo} from '../../assets/crown.svg'
+import { ReactComponent as CrownLogo } from '../../assets/crown.svg'
 import './navigation.styles.scss'
 
 const Navigation = () => {
+  const links = [
+    { href: '/shop', label: 'SHOP' },
+    { href: '/sign-in', label: 'SING IN' }
+  ]
+
   return (
     <>
       <div className='navigation'>
         <Link className='logo-container' to='/'>
-          <div><CrownLogo className='logo' /></div>
+          <div>
+            <CrownLogo className='logo' />
+          </div>
         </Link>
         <div className='nav-links-container'>
-          <Link className='nav-link' to={'/shop'}>Shop</Link>
+          {links.map(link => (
+            <Link className='nav-link' to={link.href}>
+              {link.label}
+            </Link>
+          ))}
         </div>
       </div>
       <Outlet />
