@@ -18,7 +18,7 @@ const Navigation = () => {
         </Link>
         <div className='nav-links-container'>
           {links.map(link => (
-            <Link className='nav-link' to={link.href}>
+            <Link key={link.label} className='nav-link' to={link.href}>
               {link.label}
             </Link>
           ))}
