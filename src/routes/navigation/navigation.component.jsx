@@ -5,7 +5,7 @@ import './navigation.styles.scss'
 const Navigation = () => {
   const links = [
     { href: '/shop', label: 'SHOP' },
-    { href: '/sign-in', label: 'SING IN' }
+    { href: '/auth', label: 'SING IN' }
   ]
 
   return (

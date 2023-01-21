@@ -3,8 +3,11 @@ import {
   getAuth,
   signInWithRedirect,
   signInWithPopup,
-  GoogleAuthProvider
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
 } from 'firebase/auth'
+
 import {
   getFirestore,
   doc, // retrieve doc instance
@@ -29,24 +32,42 @@ const firebaseApp = initializeApp(firebaseConfig)
   Firebase Authentication
 ------------------------*/
 // 様々な認証方法(メール, Facebook, Github等)のうちGoogle認証を利用
-const provider = new GoogleAuthProvider()
-provider.setCustomParameters({
+const googleProvider = new GoogleAuthProvider()
+googleProvider.setCustomParameters({
   prompt: 'select_account'
 })
 
+// 認証画面の表示設定(ポップアップ / リダイレクト)
 export const auth = getAuth()
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider)
+export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider)
+
+// メールとパスワードをAuthenticationのusersに登録
+// 登録されたユーザーの情報を返す
+// → 新しいアカウントが作成された場合、ユーザーは自動的にサインインする
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+  if(!email || !password) return;
+  return await createUserWithEmailAndPassword(auth, email, password)
+}
+
+// メールとパスワードによるサインイン
+export const signInWithEmail = async (email, password) => {
+  if(!email || !password) return;
+  return await signInWithEmailAndPassword(auth, email, password)
+}
 
 /*------------------------
     Firestore Database
 ------------------------*/
 export const db = getFirestore()
 /**
- * Google認証したユーザーをデータベースに登録
+ * 認証ユーザー(Authenticationのuser)をデータベースに登録
  * @param auth 認証情報オブジェクト 
  * @returns 該当ユーザのドキュメント参照
  */
 export const createUserDocFromAuth = async auth => {
+  if(!auth) return;
+
   // 認証情報をもとに、Firestoreのusersコレクション(テーブル)から
   // ドキュメント(行)の参照を取得
   // → コレクションやドキュメントが存在しない場合も
@@ -71,3 +92,5 @@ export const createUserDocFromAuth = async auth => {
 
   return userDocRef;
 }
+
+
