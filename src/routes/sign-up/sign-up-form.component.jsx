@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import Button from '../../components/button/button.component'
 import FormInput from '../../components/form-input/form-input.component'
 import {
@@ -7,6 +7,7 @@ import {
 } from '../../utils/firebase/firebase.utils'
 
 import './sign-up-form.styles.scss'
+import { UserContext } from './../../contexts/user.context';
 
 const defaultFormFielsds = {
   displayName: '',
@@ -18,6 +19,8 @@ const defaultFormFielsds = {
 const SignUpForm = () => {
   const [formFielsds, setFormFielsds] = useState(defaultFormFielsds)
   const { displayName, email, password, passwordConf } = formFielsds
+
+  const {setCurrentUser} = useContext(UserContext);
 
   const handleChange = event => {
     const { name, value } = event.target
@@ -36,6 +39,7 @@ const SignUpForm = () => {
     try {
       // AuthenticationのUsersとして登録
       const { user } = await createAuthUserWithEmailAndPassword(email, password)
+      setCurrentUser(user)
       // Firestoreに登録
       createUserDocFromAuth({ ...user, displayName, createdAt: new Date() })
       setFormFielsds(defaultFormFielsds)
