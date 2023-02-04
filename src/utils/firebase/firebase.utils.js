@@ -6,7 +6,8 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signOut
+  signOut,
+  onAuthStateChanged
 } from 'firebase/auth'
 
 import {
@@ -59,6 +60,12 @@ export const signInWithEmail = async (email, password) => {
 
 // サインアウト
 export const signOutUser = async() => await signOut(auth)
+
+// 認証状態の変化(サインイン、サインアウト)に対応
+// onAuthStateChangeは、Observer Patternを取っている 
+// → 認証状態の変化(ストリーム)をSubscribeしている
+// 第二引数は、ストリームに変化があったときの処理、第三引数はエラー発生時の処理、第四引数はストリーム完了時の処理
+export const onAuthStateChangedListener = callback => onAuthStateChanged(auth, callback)
 
 /*------------------------
     Firestore Database
