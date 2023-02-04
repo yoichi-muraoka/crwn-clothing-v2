@@ -3,9 +3,10 @@ import Button from '../button/button.component'
 import { useContext } from 'react'
 import { CartContext } from './../../contexts/cart.context'
 import CartItem from './cart-item.component'
+import { Link } from 'react-router-dom'
 
 const CartDropdown = () => {
-  const { cartItems } = useContext(CartContext)
+  const { cartItems, setShowCart } = useContext(CartContext)
 
   return (
     <div className='cart-dropdown-container'>
@@ -16,7 +17,9 @@ const CartDropdown = () => {
           <h2>No Items</h2>
         )}
       </div>
-      <Button>Checkout</Button>
+      <Link to='/checkout' onClick={() => setShowCart(false)}>
+        <Button>Checkout</Button>
+      </Link>
     </div>
   )
 }

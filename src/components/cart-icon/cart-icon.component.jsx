@@ -5,7 +5,7 @@ import { CartContext } from './../../contexts/cart.context';
 
 const CartIcon = () => {
 
-  const {setShowCart, cartItems} = useContext(CartContext)
+  const {setShowCart, totalQuantity} = useContext(CartContext)
 
   const handleClick = () => {
     setShowCart(prev => !prev)
@@ -14,7 +14,7 @@ const CartIcon = () => {
   return (
     <div className='cart-icon-container' onClick={handleClick}>
       <ShoppingIcon className='shopping-icon' />
-      <span className='item-count'>{cartItems.reduce((accum, item) => accum + item.quantity, 0)}</span>
+      <span className='item-count'>{totalQuantity}</span>
     </div>
   )
 }
