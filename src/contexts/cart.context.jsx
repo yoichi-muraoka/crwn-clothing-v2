@@ -1,18 +1,34 @@
-import { useState, createContext } from 'react';
+import { useState, createContext } from 'react'
 
-export const CartContext = createContext();
+const addCartItem = (cartItems, productToAdd) => {
+  // find if exists
+  let itemExists = false
+  const newCartItems = cartItems.map(item => {
+    if (item.id === productToAdd.id) {
+      item.quantity += 1
+      itemExists = true
+    }
+    return item
+  })
 
-export const CartProvider = ({children}) => {
+  if(!itemExists) {
+    newCartItems.push({...productToAdd, quantity: 1})
+  }
 
-    const [count, setCount] = useState(0)
-    const [showCart, setShowCart] = useState(false)
+  return newCartItems
+}
 
-    const value = {count, setCount, showCart, setShowCart}
+export const CartContext = createContext()
 
-    return (
-        <CartContext.Provider value={value}>
-            {children}
-        </CartContext.Provider>
-    )
+export const CartProvider = ({ children }) => {
+  const [cartItems, setCartItems] = useState([])
+  const [showCart, setShowCart] = useState(false)
 
+  const addItemToCart = productToAdd => {
+    setCartItems(addCartItem(cartItems, productToAdd))
+  }
+
+  const value = { cartItems, setCartItems, addItemToCart, showCart, setShowCart }
+
+  return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }
