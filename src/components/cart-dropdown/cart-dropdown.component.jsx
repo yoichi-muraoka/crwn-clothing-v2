@@ -1,15 +1,15 @@
-import './cart-dropdown.styles.scss'
 import Button from '../button/button.component'
 import { useContext } from 'react'
 import { CartContext } from './../../contexts/cart.context'
 import CartItem from './cart-item.component'
 import { Link } from 'react-router-dom'
+import { CartDropdownContainer } from './cart-dropdown.styles'
 
 const CartDropdown = () => {
   const { cartItems, setShowCart } = useContext(CartContext)
 
   return (
-    <div className='cart-dropdown-container'>
+    <CartDropdownContainer>
       <div className='cart-items'>
         {cartItems.length > 0 ? (
           cartItems.map(item => <CartItem key={item.id} cartItem={item} />)
@@ -20,7 +20,7 @@ const CartDropdown = () => {
       <Link to='/checkout' onClick={() => setShowCart(false)}>
         <Button>Checkout</Button>
       </Link>
-    </div>
+    </CartDropdownContainer>
   )
 }
 

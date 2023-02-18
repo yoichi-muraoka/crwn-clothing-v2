@@ -14,7 +14,11 @@ import {
   getFirestore,
   doc, // retrieve doc instance
   getDoc, // get data from doc
-  setDoc // set data into doc
+  setDoc, // set data into doc
+  collection,
+  writeBatch,
+  query,
+  getDocs
 } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -71,6 +75,37 @@ export const onAuthStateChangedListener = callback => onAuthStateChanged(auth, c
     Firestore Database
 ------------------------*/
 export const db = getFirestore()
+
+// コレクションの追加
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+   const collectionRef = collection(db, collectionKey)
+   // batch: トランザクション管理
+   const batch = writeBatch(db)
+
+   objectsToAdd.forEach(object => {
+    const docRef = doc(collectionRef, object.title.toLowerCase())
+    batch.set(docRef, object)
+   })
+
+   await batch.commit()
+}
+
+// カテゴリごとのアイテム取得
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, 'categories')
+  const q = query(collectionRef)
+
+  const querySnapshot = await getDocs(q)
+  // カテゴリ名をキーとしたオブジェクトに変換
+  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+    const {title, items} = docSnapshot.data()
+    acc[title.toLowerCase()] = items
+    return acc
+  }, {})
+
+  return categoryMap
+}
+
 /**
  * 認証ユーザー(Authenticationのuser)をデータベースに登録
  * @param auth 認証情報オブジェクト 

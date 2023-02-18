@@ -1,4 +1,4 @@
-import './checkout-table.styles.scss'
+import { CheckoutContainer } from './checkout-table.styles'
 import CheckoutTableRow from './checkout-table-row.component';
 import { useContext } from 'react';
 import { CartContext } from './../../contexts/cart.context';
@@ -6,12 +6,12 @@ import { CartContext } from './../../contexts/cart.context';
 const CheckoutTable = () => {
     const {cartItems, totalPrice} = useContext(CartContext)
     return (
-        <div className="checkout-table">
+        <CheckoutContainer>
             <div className="total-price">Total: ${totalPrice}</div>
             {cartItems.map(item => (
                 <CheckoutTableRow key={item.id} cartItem={item}  />
             ))}
-        </div>
+        </CheckoutContainer>
     )
 }
 

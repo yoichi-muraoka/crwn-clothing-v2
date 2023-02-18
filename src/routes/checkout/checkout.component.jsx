@@ -1,5 +1,4 @@
 import CheckoutTable from '../../components/checkout-table/checkout-table.component'
-import './checkout.component.scss'
 
 const Checkout = () => {
     return (

@@ -1,5 +1,5 @@
 import Button from './../button/button.component'
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { CartContext } from './../../contexts/cart.context'
 
 const CheckoutTableRow = ({ cartItem }) => {

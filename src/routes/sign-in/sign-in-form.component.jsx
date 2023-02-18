@@ -1,14 +1,13 @@
 import { useState } from 'react'
-import Button from '../../components/button/button.component'
+import Button, {
+  BUTTON_TYPE_CLASSES
+} from '../../components/button/button.component'
 import FormInput from '../../components/form-input/form-input.component'
 import {
-  createUserDocFromAuth,
   signInWithEmail,
   signInWithGooglePopup
 } from '../../utils/firebase/firebase.utils'
-
-import './sign-in-form.styles.scss'
-
+import { SignInContainer } from './sign-in-form.styles'
 
 const defaultSignInFields = {
   email: '',
@@ -50,42 +49,44 @@ const SignInForm = () => {
   }
 
   return (
-    <>
-      <div className='sign-in-container'>
-        <h2>I already have an account</h2>
-        <span>Sign in with your Email or Google account</span>
-        <form onSubmit={handleSubmit}>
-          <FormInput
-            forId='sign-in-email'
-            label='Email'
-            type='email'
-            name='email'
-            onChange={handleChange}
-            required
-            value={email}
-          />
+    <SignInContainer>
+      <h2>I already have an account</h2>
+      <span>Sign in with your Email or Google account</span>
+      <form onSubmit={handleSubmit}>
+        <FormInput
+          forId='sign-in-email'
+          label='Email'
+          type='email'
+          name='email'
+          onChange={handleChange}
+          required
+          value={email}
+        />
 
-          <FormInput
-            forId='sign-in-password'
-            label='Password'
-            type='password'
-            name='password'
-            onChange={handleChange}
-            required
-            value={password}
-          />
+        <FormInput
+          forId='sign-in-password'
+          label='Password'
+          type='password'
+          name='password'
+          onChange={handleChange}
+          required
+          value={password}
+        />
 
-          <div className='buttons-container'>
-            <Button buttonType='inverted' type='submit'>
-              Sign In
-            </Button>
-            <Button buttonType='google' type='button' onClick={showSignInPopup}>
-              Google Sign In
-            </Button>
-          </div>
-        </form>
-      </div>
-    </>
+        <div className='buttons-container'>
+          <Button buttonType={BUTTON_TYPE_CLASSES.inverted} type='submit'>
+            Sign In
+          </Button>
+          <Button
+            buttonType={BUTTON_TYPE_CLASSES.google}
+            type='button'
+            onClick={showSignInPopup}
+          >
+            Google Sign In
+          </Button>
+        </div>
+      </form>
+    </SignInContainer>
   )
 }
 

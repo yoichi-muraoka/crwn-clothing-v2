@@ -1,4 +1,6 @@
-.checkout-table {
+import styled from 'styled-components';
+
+export const CheckoutContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -42,4 +44,4 @@
         font-weight: bold;
         font-size: 2.5rem;
     }
-}
+`
